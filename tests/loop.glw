@@ -1,0 +1,38 @@
+entry main() -> i32:
+    i32 x = 10;
+    i32 y = 20;
+    i32 result = x + y;
+    
+    ostream << "\nx = " << x << \n;
+    ostream << "y = " << y << \n;
+    ostream << "\nx + y result: " << x + y << \n;
+
+    # WHILE loop
+    i32 i = 10;
+    ostream << \n << "While loop:" << \n;
+
+    loop(i >= 0):
+        ostream << i-- << \n;
+    end
+
+    # RANGE loop
+    i = 0;
+    i32 arr = [2, 7, 3];
+    ostream << \n << "Range loop:" << \n;
+
+    loop(i32 j : arr):
+        ostream << "arr[" + i + "]: " << j << \n;
+        ++i;
+    end
+
+    # FOR loop
+    ostream << \n << "For loop:" << \n;
+
+    loop(i32 k = 0, k <= 10, k++):
+        ostream << k << \n;
+    end
+
+    ostream << \n;
+
+    ret 0;
+end

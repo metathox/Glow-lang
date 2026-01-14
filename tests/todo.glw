@@ -1,0 +1,57 @@
+# Refined Glow CLI Task Manager
+entry main() -> i32:
+    str tasks[10];
+    i32 task_count = 0;
+    str cmd = "";
+    bool running = true;
+
+    ostream << "-------------------------------" << \n;
+    ostream << "   GLOW TASK SENTINEL v1.0" << \n;
+    ostream << "-------------------------------" << \n;
+    ostream << "Commands: [add] [list] [clear] [exit]" << \n;
+
+    loop (running):
+        ostream << \n << "prompt: ";
+        istream >> cmd;
+
+        if (cmd == "add"):
+            if (task_count < 10):
+                ostream << ">> Task Description: ";
+                # Reads single-word task for now
+                istream >> tasks[task_count];
+                task_count++;
+                ostream << "[OK] Task indexed at slot " + task_count << \n;
+            else:
+                ostream << "[ERROR] Task buffer overflow (Max 10)." << \n;
+            end
+
+        elif (cmd == "list"):
+            if (task_count == 0):
+                ostream << "[INFO] Task buffer is empty." << \n;
+            else:
+                ostream << "--- ACTIVE TASKS ---" << \n;
+                i32 i = 0;
+                loop (i < task_count):
+                    ostream << " [" + "${i + 1}" + "] " + tasks[i] << \n;
+                    i++;
+                end
+                ostream << "--------------------" << \n;
+            end
+
+        elif (cmd == "clear"):
+            task_count = 0;
+            ostream << "[SYSTEM] Task buffer cleared." << \n;
+
+        elif (cmd == "exit"):
+            ostream << "[SHUTDOWN] Exiting Sentinel..." << \n;
+            running = false;
+
+        else:
+            if (cmd != ""):
+                ostream << "[?] Unknown command: '" + cmd + "'" << \n;
+            end
+        end
+    end
+
+    ret 0;
+end

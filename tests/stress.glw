@@ -1,0 +1,86 @@
+# --- Unit Definitions ---
+
+unit Hardware:
+    pub:
+        ui128 uuid;
+        str model;
+        bool active = true;
+
+        init(ui128 id, str m):
+            my.uuid = id;
+            my.model = m;
+        end
+end
+
+# Inheriting layout from Hardware
+unit Processor from Hardware:
+    pub:
+        i32 cores;
+        f32 clock_speed;
+
+        init(ui128 id, str m, i32 c, f32 speed):
+            # Manual base initialization (since we have no auto-super calls yet)
+            my.uuid = id;
+            my.model = m;
+            my.cores = c;
+            my.clock_speed = speed;
+            
+            ostream << "[SET] CPU Configured: ${model} with ${cores} cores at ${speed}GHz" << \n;
+        end
+end
+
+# --- System Logic Functions ---
+
+fn check_security(ui128 key) -> bool:
+    # Testing 128-bit hex literal comparison
+    if (key == 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF):
+        ret true;
+    end
+    ret false;
+end
+
+# --- Entry Point ---
+
+entry main() -> i32:
+    ostream << "=== GLOW SYSTEM SENTINEL BOOT ===" << flush;
+
+    # 1. Security Check using 128-bit logic
+    ui128 master_key = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF;
+    if (check_security(master_key)):
+        ostream << "SECURE: Root Auth Verified." << \n;
+    else:
+        panic("UNAUTHORIZED: Security breach detected!");
+    end
+
+    # 2. Hardware Inventory Setup
+    # Using our Unit logic
+    Processor cpu = Processor(0x123456789ABCDEF, "GlowCore-X1", 16, 4.2);
+    
+    # Collection of Task IDs
+    i32 task_queue = [101, 102, 103, 104, 105];
+    i32 processed_count = 0;
+
+    # 3. Task Processing (While Loop + Stream Chain)
+    ostream << \n << "Initializing Process Queue..." << \n;
+    
+    i32 i = 0;
+    loop(i < 5):
+        i32 current_task = task_queue[i];
+        ostream << "  -> Processing Task ID: " << current_task << " [Status: OK]" << \n;
+        i++;
+        processed_count++;
+    end
+
+    # 4. Final System Status (Range Loop + Interpolation)
+    ostream << \n << "=== System Report ===" << \n;
+    str logs = ["Fan_Check", "Temp_Sync", "Volt_Stable"];
+    
+    loop(str Entry : logs):
+        ostream << "Log Entry: " << Entry << " ... Verified." << \n;
+    end
+
+    ostream << \n << "Summary: ${processed_count} tasks handled on hardware $(cpu.uuid)." << \n;
+    ostream << "Finalizing Shutdown Sequences..." << \n;
+
+    ret 0;
+end

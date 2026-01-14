@@ -1,0 +1,4 @@
+.vscode
+build/
+tools/
+src/include/GlowModules
